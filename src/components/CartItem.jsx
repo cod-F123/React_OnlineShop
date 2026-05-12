@@ -1,0 +1,48 @@
+
+function CartItem({item, updateQtyHandler, removeItemHandler}){
+    return <>
+        <div className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm">
+            <img src={item.img} alt="product" className="w-20 h-20 object-cover rounded" />
+            <div className="flex-1">
+                <div className="flex justify-between items-start">
+                <div>
+                    <div className="font-medium">{item.title}</div>
+                    <div className="text-sm text-gray-500">{item.desc}</div>
+                </div>
+                <div className="text-left">
+                    <div className="font-semibold">${item.price.toFixed(2)}</div>
+                </div>
+                </div>
+
+                <div className="mt-3 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <button
+                    onClick={() => updateQtyHandler(item.id, item.qty - 1)}
+                    className="px-2 py-1 cursor-pointer rounded border hover:bg-gray-50"
+                    aria-label="decrease"
+                    >
+                    -
+                    </button>
+                    <div className="w-10 text-center">{item.qty}</div>
+                    <button
+                    onClick={() => updateQtyHandler(item.id, item.qty + 1)}
+                    className="px-2 py-1 cursor-pointer rounded border hover:bg-gray-50"
+                    aria-label="increase"
+                    >
+                    +
+                    </button>
+                </div>
+
+                <div className="flex items-center gap-3">
+                    <button onClick={() => removeItemHandler(item.id)} className="text-red-500 cursor-pointer text-sm">
+                    حذف
+                    </button>
+                    {/* <button className="text-sm text-sky-600">ذخیره برای بعد</button> */}
+                </div>
+                </div>
+            </div>
+            </div>
+    </>
+};
+
+export default CartItem;

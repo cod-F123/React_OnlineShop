@@ -1,1 +1,13 @@
 @import "tailwindcss";
+@font-face {
+    font-family: Vazir;
+    src: url("./assets/fonts/Vazir.ttf");
+}
+
+*{
+    font-family: Vazir !important;
+}
+
+.h-max-content{
+    height: max-content !important;
+}
