@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import CommentItem from "./CommentItem";
 import AddComment from "./AddComment";
 
-const demoComments = [
-  { id:1, author: 'مهدی', text: 'کیفیت عالی و ارسال سریع.', rating: 5, date: '۱۴۰۲/۱۲/۰۵' },
-  { id:2, author: 'سارا', text: 'خیلی راضی‌ام، ظاهر شیک ولی بسته‌بندی بهتر می‌تونست باشه.', rating: 4, date: '۱۴۰۲/۱۱/۲۳' }
-]
 
-function CommentList({ comments: initialComments = demoComments }){
-    const [comments, setComments] = useState(initialComments);
+function CommentList({ comments }){;
     const [open, setOpen] = useState(false);
 
     const addComment = (c) => {

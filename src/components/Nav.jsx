@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import useAuth from "../hooks/AuthHook";
 import { Link } from "react-router-dom";
 
 function Nav(){
   const [open, setOpen] = useState(false);
+  const {isAuthenticated} = useAuth();
 
   const cartIcon = (
     <svg
@@ -35,6 +37,11 @@ function Nav(){
         </Link>
       </li>
       <li>
+        {isAuthenticated ? <>
+        <Link to="/dashboard" className="px-3 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-500 transition inline-flex items-center gap-2">
+          داشبورد
+        </Link>
+        </> : <>
         <Link to="/login" className="px-3 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-500 transition inline-flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
@@ -43,6 +50,8 @@ function Nav(){
           </svg>
           ورود
         </Link>
+        </>}
+        
       </li>
     </ul>
   );
@@ -77,6 +86,11 @@ function Nav(){
           <Link to="/shop" className="block px-3 py-2 rounded hover:bg-gray-100 transition transform hover:scale-105">فروشگاه</Link>
           <Link to="/about" className="block px-3 py-2 rounded hover:bg-gray-100 transition transform hover:scale-105">درباره ما</Link>
         <Link to="/cart" className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-100 transition transform hover:scale-105">{cartIcon}<span>سبد خرید</span></Link>
+          {isAuthenticated ? <>
+          <Link to="/dashboard" className=" px-3 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-500 inline-flex items-center justify-center">
+            داشبورد
+          </Link>
+          </> : <>
           <Link to="/login" className=" px-3 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-500 inline-flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
@@ -84,6 +98,7 @@ function Nav(){
               <line x1="15" y1="12" x2="3" y2="12"></line>
             </svg>
           </Link>
+          </>}
         </div>
       </div>
     </nav>

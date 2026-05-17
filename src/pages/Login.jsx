@@ -1,7 +1,16 @@
-import { useState } from "react";
+import { useState,} from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../service/api";
+import useAlert from "../hooks/AlertHook";
 import editImage from "../assets/images/Edit.png";
+import useAuth from "../hooks/AuthHook";
 
 function Login(){
+
+    const {setMessage, setTypeAlert} = useAlert();
+    const {setUser, setIsAuthenticated} = useAuth();
+
+    const navigate = useNavigate();
 
     const [state, setState] = useState(()=>{
         const savedState = localStorage.getItem("loginState");
@@ -23,10 +32,11 @@ function Login(){
     const checkPhone = (phone) => {
         phone = toEnglishDigits(phone);
         if ((String(phone).startsWith("09") | String(phone).startsWith("989")) & isDigitsOnly(phone)){
-            localStorage.setItem("loginState","verify-otp")
-            setState("verify-otp")
+            
+            return true
+
         }else{
-            alert("bad")
+            return false
         }
     }
 
@@ -34,13 +44,65 @@ function Login(){
         if (state == 'send-phone'){
             if (checkPhone(phone)){
 
+                localStorage.setItem("loginState","verify-otp");
+                setState("verify-otp");
+
+
+                api.post('/accounts/api/v1/send-verify-code/', {phone: phone}).then((res)=>{
+                    console.log(res);
+                    setTypeAlert("success")
+                    setMessage("کد تایید به شماره شما ارسال شد")
+                }).catch((error)=>{
+                    console.log(error);
+                    setTypeAlert("error");
+                    setMessage("مشکلی درارسال کد بوجود آمد دقایقی دیگر تلاش کنید")
+                })
             }else{
-                
+                setTypeAlert("error");
+                setMessage("فرمت شماره وارد شده نادرست است")
             };
 
         }else{
-            localStorage.removeItem("loginState");
-            setState('send-phone');
+
+            api.post('/accounts/api/v1/login-otp/',{"phone":phone,"otp_code":code}).then((res)=>{
+                localStorage.removeItem("loginState");
+                setState('send-phone');
+
+                localStorage.setItem("accessToken", res.data.access);
+                localStorage.setItem("refreshToken", res.data.refresh);
+
+                api.get("/accounts/api/v1/user/").then((resUser)=>{
+
+                    const user = {phone:phone, full_name:resUser.data.full_name, id:data.id, email:data.email};
+                    localStorage.setItem("user", JSON.stringify(user));
+                    
+                    setUser(user);
+                    setIsAuthenticated(true);
+
+                }).catch((error)=>{
+
+                    setTypeAlert("error");
+                    setMessage("مشکلی در دریافت اطلاعات شما پیش آمد مجدد وارد شوبد");
+
+                })
+
+                setTypeAlert("success");
+                setMessage("با موفقیت وارد شدید");
+
+                setCode("");
+                setPhone("");
+
+                navigate("/");
+
+            }).catch((error)=>{
+                setTypeAlert("error");
+
+                if (error.response.data.details[0] == 'code expired'){
+                    setMessage("کد ارسال شده منقضی شده")
+                }else{
+                    setMessage("کد ارسال شده نادرست است")
+                }
+            })
         }
     }
 

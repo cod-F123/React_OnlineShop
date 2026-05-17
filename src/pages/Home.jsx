@@ -1,11 +1,38 @@
+import { useState, useEffect } from "react";
+import api from "../service/api";
 import HeroHeader from "../components/HeroHeader";
 import ProductList from "../components/ProductList";
 import SpecialProducts from "../components/SpecialProducts";
 
 function Home(){
+
+    const [products, setProducts] = useState([])
+    const [discountProducts, setDiscountProducts] = useState([])
+
+    const [productsIsLoading, setProductIsLoading] = useState(true);
+    const [discountIsLoading, setDiscountIsLoading] = useState(true);
+
+    useEffect(()=>{
+        setProductIsLoading(true)
+        setDiscountIsLoading(true)
+        api.get('/shop/api/v1/product/?ordering=added_at').then((res)=>{
+            setProducts(res.data.result);
+            setProductIsLoading(false)
+        }).catch((error)=>{
+
+        })
+
+        api.get('/shop/api/v1/product/?ordering=-discount').then((res)=>{
+            setDiscountProducts(res.data.result);
+            setDiscountIsLoading(false)
+        }).catch((error)=>{
+
+        })
+    },[])
+
     return <>
         <HeroHeader />
-        <ProductList />
+        <ProductList products={products} isLoading={productsIsLoading} label="جدید ترین محصولات" />
         <SpecialProducts />
 
         <section dir="rtl" aria-label="دعوت به ورود و سفارش" className="mt-12">
@@ -26,7 +53,7 @@ function Home(){
           </div>
         </section>
 
-        <ProductList label="محصولات باتخفیف بالا"/>
+        <ProductList label="محصولات باتخفیف بالا" isLoading={discountIsLoading} products={discountProducts}/>
     </>
 };
 

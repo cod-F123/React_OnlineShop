@@ -6,7 +6,7 @@ function AddressItem({address, editHandler, removeHandler}){
             >
                 <div>
                     <div className="font-medium">{address.title}</div>
-                    <div className="text-sm text-gray-500">{address.line}</div>
+                    <div className="text-sm text-gray-500">{address.address}</div>
                 </div>
                 <div className="flex gap-1 items-center">
                     <button className="text-sm cursor-pointer text-sky-600 ml-2" onClick={(e)=>{editHandler(address)}}>ویرایش</button>

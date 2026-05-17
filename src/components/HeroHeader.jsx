@@ -28,7 +28,7 @@ function HeroHeader() {
               <div className="rounded-2xl bg-gradient-to-br from-indigo-50 to-white p-6 shadow-lg">
                 {/* Product card / illustration */}
                 <div className="w-64 h-64 bg-white rounded-xl flex items-center justify-center">
-                    <img src={ProductImage} className=" rounded-xl text-slate-300" alt="محصول" />
+                    <img src={ProductImage} loading="lazy" className=" rounded-xl text-slate-300" alt="محصول" />
                   {/* <svg className="w-40 h-40 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path d="M3 7v10a2 2 0 0 0 2 2h14V5H5a2 2 0 0 0-2 2z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     <path d="M16 3v4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
