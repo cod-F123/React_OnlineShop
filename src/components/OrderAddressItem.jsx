@@ -7,10 +7,10 @@ function OrderAddressItem({address, onClickHandler, isSelected=false}){
     >
         <div>
             <div className="font-medium">{address.title}</div>
-            <div className="text-sm text-gray-500">{address.line}</div>
+            <div className="text-sm text-gray-500">{address.address}</div>
         </div>
         <div className="flex gap-1 items-center">
-            <span className="text-gray-500">{address.zipcode}</span>
+            <span className="text-gray-500">{address.zip_code}</span>
         </div>
     </li>
     </>

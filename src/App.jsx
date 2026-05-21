@@ -16,6 +16,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import { CartContextProvider } from "./context/CartContext";
+import Page404 from "./pages/Page404";
 
 
 function App() {
@@ -36,10 +37,11 @@ function App() {
                             <Route path="/login" element={<Login />} />
                             <Route element={<ProtectedRoute />}>
                                 <Route path="/dashboard" element={<Dashboard />} />
-                                <Route path="/dashboard/ticket/detail" element={<DetailTicket />} />
+                                <Route path="/dashboard/ticket/:ticket_id" element={<DetailTicket />} />
 
-                                <Route path="/dashboard/order/detail" element={<OrderDetail />} />
+                                <Route path="/dashboard/order/:order_id" element={<OrderDetail />} />
                             </Route>
+                            <Route path="*" element={<Page404 />}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>

@@ -16,15 +16,15 @@ function CartItem({item, updateQtyHandler, removeItemHandler}){
                 <div className="mt-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <button
-                    onClick={() => {item.qty > 1 ? updateQtyHandler(item.id, item.qty - 1) : ""}}
+                    onClick={() => {item.quantity > 1 ? updateQtyHandler(item.product, item.quantity - 1) : ""}}
                     className="px-2 py-1 cursor-pointer rounded border hover:bg-gray-50"
                     aria-label="decrease"
                     >
                     -
                     </button>
-                    <div className="w-10 text-center">{item.qty}</div>
+                    <div className="w-10 text-center">{item.quantity}</div>
                     <button
-                    onClick={() => { item.qty < 10 ? updateQtyHandler(item.id, item.qty + 1)  : ""}}
+                    onClick={() => { item.quantity < 10 ? updateQtyHandler(item.product, item.quantity + 1)  : ""}}
                     className="px-2 py-1 cursor-pointer rounded border hover:bg-gray-50"
                     aria-label="increase"
                     >
@@ -33,7 +33,7 @@ function CartItem({item, updateQtyHandler, removeItemHandler}){
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <button onClick={() => removeItemHandler(item.id)} className="text-red-500 cursor-pointer text-sm">
+                    <button onClick={() => removeItemHandler(item.product)} className="text-red-500 cursor-pointer text-sm">
                     حذف
                     </button>
                     {/* <button className="text-sm text-sky-600">ذخیره برای بعد</button> */}

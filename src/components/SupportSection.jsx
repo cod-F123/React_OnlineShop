@@ -1,38 +1,64 @@
-import { useState } from "react";
-import TicketItem from "./TicketItem";
+import { useState, useEffect } from "react";
+import api from "../service/api";
+import useAlert from "../hooks/AlertHook";
+import Loading from "./Loading";
+import TicketItem from "../components/TicketItem";
 
 function SupportSection(){
 
-    const ticketsDemo = [
-        { id: "#1001", date: "2026-04-30", title : "پیگیری مرجوعی", status: "در انتظار برسی", priority: "متوسط" },
-        { id: "#1000", date: "2026-03-20", title : "لغو سفارش", status: "درحال برسی", priority: "پایین" }
-    ]
+    const {setMessage, setTypeAlert} = useAlert();
 
-    const [tickets , setTickets] = useState(ticketsDemo)
+    const [tickets , setTickets] = useState([]);
     const [isAddTicket, setIsAddTicket] = useState(false);
     const [newTitle, setNewTitle] = useState("");
     const [newBody, setNewBody] = useState("");
-    const [newPriority, setNewPriority] = useState("متوسط");
+    const [newPriority, setNewPriority] = useState("Low");
+    const [isLoading, setIsLoading] = useState(true);
+
+
+    useEffect(()=>{
+        setIsLoading(true);
+
+        api.get('/tickets/api/v1/ticket/').then((res)=>{
+            setTickets(res.data);
+
+        }).catch((error)=>{
+            console.log(error)
+            setTypeAlert("error");
+            setMessage("دریافت اطلاعات با خطا مواجه شد");
+            
+        }).finally(()=>{
+            setIsLoading(false);
+        });
+
+    },[])
 
     const submitNewTicket = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         if(!newTitle.trim()) return;
-        const newTicket = {
-            id: `#${Date.now()}`,
-            date: new Date().toISOString().split('T')[0],
-            title: newTitle.trim(),
-            status: "در انتظار برسی",
-            priority: newPriority
-        }
-        setTickets((t)=>[newTicket, ...t]);
-        // reset form and switch back to list
-        setNewTitle("");
-        setNewBody("");
-        setNewPriority("متوسط");
-        setIsAddTicket(false);
+        if(!newBody.trim()) return;
+
+        api.post('/tickets/api/v1/ticket/', {title: newTitle, content : newBody, priority: newPriority}).then((res)=>{
+            setTickets(prev=>[res.data,...prev]);
+
+        }).catch((error)=>{
+            console.log(error.response.data)
+            setTypeAlert("error");
+            setMessage("عملیات با خطا مواجه شد");
+            
+        }).finally(()=>{
+            setNewTitle("");
+            setNewBody("");
+            setNewPriority("متوسط");
+            setIsAddTicket(false);
+            setIsLoading(false);
+        });
+        
+        
     }
 
-    return <>
+    return isLoading ? <Loading /> : <>
     <div  className={" duration-200 "+ `${isAddTicket ? " translate-0" : " opacity-0 translate-x-full  overflow-hidden h-0 w-0"}`}>
         <h2 className="text-lg font-semibold mb-3">تیکت جدید</h2>
         <form onSubmit={submitNewTicket} className="space-y-3 p-4 rounded-lg border border-gray-100">
@@ -45,20 +71,20 @@ function SupportSection(){
                 <div className="max-sm:w-full max-sm:px-4">
                     <label className="font-bold mr-2" htmlFor="priority">اولویت</label>
                     <select id="priority" value={newPriority} onChange={(e)=>setNewPriority(e.target.value)} className="border h-10 w-44 px-2 max-sm:w-full border-gray-200 rounded" dir="rtl">
-                        <option value="پایین">پایین</option>
-                        <option value="متوسط">متوسط</option>
-                        <option value="بالا">بالا</option>
+                        <option value="Low">پایین</option>
+                        <option value="Medium">متوسط</option>
+                        <option value="High">بالا</option>
                     </select>
                 </div>
             </div>
 
             <div className="flex justify-between  gap-3 max-sm:flex-col items-cente ">
                 <div className="w-full max-sm:px-4">
-                        <textarea value={newBody} onChange={(e)=>setNewBody(e.target.value)} name="address" id="" placeholder="جزئیات تیکت"  className="border w-full px-3 py-2 min-h-28  border-gray-200 rounded focus:outline-gray-300" dir="rtl"></textarea>
+                        <textarea value={newBody} onChange={(e)=>setNewBody(e.target.value)} name="content" id="" placeholder="جزئیات تیکت"  className="border w-full px-3 py-2 min-h-28  border-gray-200 rounded focus:outline-gray-300" dir="rtl"></textarea>
                 </div>
             </div>
             <div>
-              <button type="submit" className="mt-4 px-4 py-2 cursor-pointer bg-sky-600 text-white rounded">ارسال</button>
+              <button type="button" onClick={submitNewTicket}  className="mt-4 px-4 py-2 cursor-pointer bg-sky-600 text-white rounded">ارسال</button>
               <button type="button" className="mt-4 px-4 py-2 cursor-pointer bg-red-600 text-white rounded ml-2" onClick={(e)=>{setIsAddTicket(~isAddTicket)}}>لغو</button>
             </div>
         </form>

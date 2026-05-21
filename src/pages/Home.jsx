@@ -6,11 +6,14 @@ import SpecialProducts from "../components/SpecialProducts";
 
 function Home(){
 
-    const [products, setProducts] = useState([])
-    const [discountProducts, setDiscountProducts] = useState([])
+    const [products, setProducts] = useState([]);
+    const [discountProducts, setDiscountProducts] = useState([]);
+    const [specialSuggestionProducts, setSpecialSuggestionProducts] = useState({});
 
     const [productsIsLoading, setProductIsLoading] = useState(true);
     const [discountIsLoading, setDiscountIsLoading] = useState(true);
+    const [sspisLoading, setSspIsLoading] = useState(true);
+
 
     useEffect(()=>{
         setProductIsLoading(true)
@@ -20,20 +23,36 @@ function Home(){
             setProductIsLoading(false)
         }).catch((error)=>{
 
-        })
+        });
 
         api.get('/shop/api/v1/product/?ordering=-discount').then((res)=>{
             setDiscountProducts(res.data.result);
             setDiscountIsLoading(false)
         }).catch((error)=>{
 
-        })
+        });
+
+        setSspIsLoading(true);
+        api.get("/shop/api/v1/special-suggestion/").then((response)=>{
+            setSpecialSuggestionProducts(response.data);
+
+            console.log(response.data)
+
+        }).catch((error)=>{
+            console.log(error);
+
+        }).finally(()=>{
+            setSspIsLoading(false);
+        });
     },[])
 
     return <>
         <HeroHeader />
         <ProductList products={products} isLoading={productsIsLoading} label="جدید ترین محصولات" />
-        <SpecialProducts />
+        {specialSuggestionProducts.is_active & specialSuggestionProducts.remaining_sconds > 0 ? <>
+            <SpecialProducts specialSuggestion={specialSuggestionProducts} isLoading={sspisLoading} />
+        </> : <>
+        </>}
 
         <section dir="rtl" aria-label="دعوت به ورود و سفارش" className="mt-12">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -46,7 +65,7 @@ function Home(){
 
                 <div className="flex flex-row-reverse gap-3">
                   <a href="/login" className="inline-flex items-center justify-center rounded-md bg-white/10 px-4 py-2 text-sm font-semibold hover:bg-white/20">ورود / ثبت‌نام</a>
-                  <a href="#shop" className="inline-flex items-center justify-center rounded-md bg-white text-indigo-700 px-4 py-2 text-sm font-semibold">شروع سفارش</a>
+                  <a href="/shop" className="inline-flex items-center justify-center rounded-md bg-white text-indigo-700 px-4 py-2 text-sm font-semibold">شروع سفارش</a>
                 </div>
               </div>
             </div>

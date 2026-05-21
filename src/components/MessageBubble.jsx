@@ -1,6 +1,6 @@
 
 function MessageBubble({ m }) {
-  const isUser = m.from === "user";
+  const isUser = !m.is_systemReply;
   return (
     // swapped alignment: user messages now appear on the left, support on the right
     <div className={`flex ${isUser ? "justify-start" : "justify-end"}`}>
@@ -12,13 +12,13 @@ function MessageBubble({ m }) {
         )}
 
         <div className={`${isUser ? "bg-sky-50 text-right" : "bg-gray-100 text-left"} p-3 rounded-lg shadow-sm`}> 
-          <div className="text-sm text-gray-800 whitespace-pre-wrap">{m.text}</div>
+          <div className="text-sm text-gray-800 whitespace-pre-wrap">{m.content}</div>
           {m.attach && (
             <div className="mt-2">
-              <a href="#" className="text-sky-600 text-sm">📎 {m.attach}</a>
+              <a href={m.attach} download={true} pa className="text-sky-600 text-sm">📎 فایل</a>
             </div>
           )}
-          <div className="text-xs text-gray-400 mt-2">{m.time}</div>
+          <div className="text-xs text-gray-400 mt-2">{m.created_at}</div>
         </div>
         {!isUser && (
           <div className="mr-3 hidden sm:block">

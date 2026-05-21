@@ -9,7 +9,6 @@ function Star({ filled, onClick }) {
 }
 
 function AddComment({ onClose, onSubmit }) {
-  const [author, setAuthor] = useState("");
   const [rating, setRating] = useState(5);
   const [text, setText] = useState("");
 
@@ -17,10 +16,9 @@ function AddComment({ onClose, onSubmit }) {
     e.preventDefault();
     if (!text.trim()) return;
     const item = {
-      author: author || "کاربر",
-      text: text.trim(),
+      content: text.trim(),
       rating: Number(rating),
-      date: new Date().toLocaleDateString(),
+      creaetd_at: new Date().toLocaleDateString(),
     };
     onSubmit && onSubmit(item);
   };
@@ -40,18 +38,18 @@ function AddComment({ onClose, onSubmit }) {
             <h3 className="text-lg font-bold">نوشتن نظر درباره محصول</h3>
             <p className="text-sm text-gray-500">لطفاً تجربه‌ی خود را با دیگران به اشتراک بگذارید.</p>
           </div>
-          <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-700 p-2 rounded-full">✕</button>
+          <button type="button" onClick={onClose} className="text-gray-400 cursor-pointer hover:text-gray-700 p-2 rounded-full">✕</button>
         </div>
 
         <div className="grid grid-cols-1 gap-3">
           <div className="flex gap-3 items-center">
-            <input
+            {/* <input
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
               className="flex-1 border border-gray-200 px-3 py-2 rounded-lg focus:ring-1 focus:ring-sky-200"
               placeholder="نام شما (اختیاری)"
               dir="rtl"
-            />
+            /> */}
 
             <div className="flex items-center gap-2">
               <div className="text-sm text-gray-600">امتیاز</div>
@@ -73,8 +71,8 @@ function AddComment({ onClose, onSubmit }) {
 
           <div className="flex items-center justify-between">
             <div className="flex gap-2">
-              <button type="submit" className="px-4 py-2 bg-gradient-to-r from-sky-500 to-indigo-500 text-white rounded-lg shadow">ارسال نظر</button>
-              <button type="button" onClick={onClose} className="px-4 py-2 border rounded-lg">لغو</button>
+              <button type="submit" className="px-4 py-2 bg-gradient-to-r from-sky-500 cursor-pointer to-indigo-500 text-white rounded-lg shadow">ارسال نظر</button>
+              <button type="button" onClick={onClose} className="px-4 py-2 border cursor-pointer rounded-lg">لغو</button>
             </div>
 
             <div className="text-sm text-gray-500">نظر شما پس از بررسی منتشر خواهد شد.</div>

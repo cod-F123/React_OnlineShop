@@ -7,7 +7,7 @@ function CommentItem({ comment }){
       <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-sm font-bold text-slate-700">{(comment.user.full_name||'').slice(0,1)}</div>
       <div className="flex-1">
         <div className="flex items-center justify-between">
-          <div className="text-sm font-semibold text-slate-900">{comment.user.full_name}</div>
+          <div className="text-sm font-semibold text-slate-900">{comment.user.full_name || "کاربر بدون نام"}</div>
           <div className="text-xs text-slate-500">{comment.created_at}</div>
         </div>
         <div className="flex items-center gap-1 mt-1">

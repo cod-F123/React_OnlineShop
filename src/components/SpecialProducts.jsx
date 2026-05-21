@@ -1,6 +1,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import ProductItem from './ProductItem';
+import Loading from './Loading';
 
 function formatTime(ms){
   if(ms <= 0) return '۰۰:۰۰:۰۰';
@@ -11,20 +12,22 @@ function formatTime(ms){
   return `${h}:${m}:${s}`;
 }
 
-function SpecialProducts({ products = [] }){
-  // countdown: default 6 hours from mount
-  const endTime = useMemo(() => Date.now() + 1000*60*60*6, []);
-  const [timeLeft, setTimeLeft] = useState(Math.max(0, endTime - Date.now()));
+function SpecialProducts({ specialSuggestion, isLoading}){
+  // countdown: keep time in milliseconds
+  const endTime = useMemo(() => new Date(specialSuggestion.end_at).getTime(), [specialSuggestion?.end_at]);
+  const [timeLeft, setTimeLeft] = useState(() => Math.max(0, endTime - Date.now()));
 
   useEffect(() => {
+    // update immediately and then every second
+    setTimeLeft(Math.max(0, endTime - Date.now()));
     const t = setInterval(() => {
-      const left = Math.max(0, endTime - Date.now());
+      const left = Math.max(0, endTime - Date.now())
       setTimeLeft(left);
     }, 1000);
     return () => clearInterval(t);
   }, [endTime]);
 
-  return (
+  return (isLoading ? <Loading /> :<>
     <section aria-label="محصولات ویژه" dir="rtl" className="py-8 relative">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
@@ -52,15 +55,11 @@ function SpecialProducts({ products = [] }){
 
           <div className="-mx-4 px-4 overflow-x-auto hide-scrollbar">
             <div className="flex gap-6 w-max py-2 items-stretch">
-              {products.length ? products.map(p => (
+              {specialSuggestion.products.map(p => (
                 <div key={p.id} className="w-72 flex-shrink-0">
                   <ProductItem product={p} />
                 </div>
-              )) : (
-                <div className="w-72 flex-shrink-0">
-                  <ProductItem product={{ id: 's1', title: 'کالا ویژه', price: '۴۹۰,۰۰۰', image: 'https://via.placeholder.com/320x320?text=ویژه', badge: 'ویژه', discount: 30 }} />
-                </div>
-              )}
+              ))}
             </div>
           </div>
         </div>
@@ -83,6 +82,7 @@ function SpecialProducts({ products = [] }){
         .pointer-events-none.absolute.inset-y-0.right-0.w-20 { background: linear-gradient(-90deg, rgba(255,255,255,1), transparent); }
       `}</style>
     </section>
+    </>
   )
 }
 
