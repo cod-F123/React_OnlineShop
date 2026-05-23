@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
 
 function Page404(){
     return (
+        <div>
+        <Helmet><title>صفحه یافت نشد | 404</title></Helmet>
         <div className="min-h-[90vh] flex items-center justify-center px-4">
             <div className="max-w-2xl text-center">
                 <div className="text-9xl font-extrabold text-rose-500">404</div>
@@ -16,6 +19,7 @@ function Page404(){
                     </Link>
                 </div>
             </div>
+        </div>
         </div>
     )
 };

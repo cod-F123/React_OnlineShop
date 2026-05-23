@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect, use } from "react";
+import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../service/api";
 import useAlert from "../hooks/AlertHook";
@@ -87,6 +88,10 @@ function DetailTicket() {
 
 
     return isLoading ? <Loading /> : isNotFound ? <Page404 /> :  <>
+    <Helmet>
+        <title>تیکت #{ticket.ticket_id} | پشتیبانی</title>
+        <meta name="description" content={ticket.title || 'جزئیات تیکت پشتیبانی'} />
+    </Helmet>
         <div dir="rtl" className="p-6 max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
             <div>

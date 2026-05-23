@@ -17,6 +17,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 import { CartContextProvider } from "./context/CartContext";
 import Page404 from "./pages/Page404";
+import About from "./pages/About";
+import ContactUs from "./pages/ContactUs";
 
 
 function App() {
@@ -31,6 +33,9 @@ function App() {
                             <Route index element={<Home />} />
                             <Route path="/shop" element={<Shop />} />
                             <Route path="/product/:id" element={<ProdectDetail />} />
+
+                            <Route path="/about" element={<About />} />
+                            <Route path="/contact-us" element={<ContactUs />} />
 
                             <Route path="/cart" element={<Cart />} />
 

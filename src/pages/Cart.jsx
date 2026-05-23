@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from 'react-helmet-async';
 import { data, Link, useNavigate } from "react-router-dom";
 import api from "../service/api";
 import useAlert from "../hooks/AlertHook";
@@ -43,6 +44,11 @@ function Cart() {
 
     return (
         <div dir="rtl" className="p-6 max-w-5xl min-h-screen mx-auto">
+        <Helmet>
+            <title>سبد خرید | Prime Shop</title>
+            <meta name="description" content="سبد خرید شما را مشاهده و سفارش خود را نهایی کنید." />
+            <meta property="og:title" content="سبد خرید | Prime Shop" />
+        </Helmet>
         <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-bold">سبد خرید</h1>
             <div className="text-sm text-gray-500">{cart.length} مورد</div>

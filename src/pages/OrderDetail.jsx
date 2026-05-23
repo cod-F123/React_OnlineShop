@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from 'react-helmet-async';
 import { useParams, Link, useNavigate } from "react-router-dom";
 import api from "../service/api";
 import useAlert from "../hooks/AlertHook";
@@ -74,6 +75,10 @@ function OrderDetail(){
     },[])
     
     return <>{isLoading ? <><Loading /></> : isNotFound ? <Page404 /> : <>
+    <Helmet>
+        <title>جزئیات سفارش #{order.order_id} | Prime Shop</title>
+        <meta name="description" content={`جزئیات سفارش شما شماره ${order.order_id}`} />
+    </Helmet>
     <div dir="rtl" className="p-6 max-w-5xl min-h-screen mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">سفارش شماره #{order.order_id}</h1>

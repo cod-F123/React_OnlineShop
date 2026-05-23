@@ -1,4 +1,5 @@
 import { useState,} from "react";
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from "react-router-dom";
 import api from "../service/api";
 import useAlert from "../hooks/AlertHook";
@@ -107,6 +108,10 @@ function Login(){
     }
 
     return <>
+    <Helmet>
+        <title>ورود | Prime Shop</title>
+        <meta name="description" content="وارد شوید یا ثبت نام کنید تا از امکانات سفارش و تخفیف‌های اختصاصی استفاده کنید." />
+    </Helmet>
     <div className="min-h-screen grid grid-cols-12 px-2 place-content-center">
         <div className="col-span-4 overflow-hidden col-start-5 col-end-9 bg-gray-50  max-lg:col-span-6 max-lg:col-start-4 max-lg:col-end-10 max-md:col-span-8 max-md:col-start-3 max-md:col-end-11 max-sm:col-span-12 felx flex-col rounded-md shadow-lg p-2">
             <h1 className=" justify-start w-full inline-flex items-center gap-1">ورود <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

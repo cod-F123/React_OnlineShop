@@ -38,8 +38,14 @@ function Nav(){
       </li>
       <li>
         {isAuthenticated ? <>
-        <Link to="/dashboard" className="px-3 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-500 transition inline-flex items-center gap-2">
-          داشبورد
+        <Link to="/dashboard" className="px-3 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-500 transition inline-flex items-center justify-center">
+          <span className="sr-only">داشبورد</span>
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
         </Link>
         </> : <>
         <Link to="/login" className="px-3 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-500 transition inline-flex items-center gap-2">
@@ -60,7 +66,7 @@ function Nav(){
     <nav dir="rtl" className="shadow max-md:w-96 md:min-w-2xl mt-3 rounded-4xl bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="font-extrabold text-xl text-gray-900">فروشگاه من</Link>
+          <Link to="/" className="font-extrabold text-xl text-gray-900">پرایم شاپ</Link>
 
           {/* Desktop menu */}
           {menu}
@@ -88,7 +94,12 @@ function Nav(){
         <Link to="/cart" className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-100 transition transform hover:scale-105">{cartIcon}<span>سبد خرید</span></Link>
           {isAuthenticated ? <>
           <Link to="/dashboard" className=" px-3 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-500 inline-flex items-center justify-center">
-            داشبورد
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
           </Link>
           </> : <>
           <Link to="/login" className=" px-3 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-500 inline-flex items-center justify-center">

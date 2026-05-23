@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../service/api';
 import ProductItem from "../components/ProductItem";
@@ -65,7 +66,12 @@ function ProductDetail(){
     return (
         <>
         {isLoading ? <><Loading /></> : isNotFound ? <Page404 /> :
-         <><main dir="rtl" className="py-12 min-h-[90vh]">
+         <><Helmet>
+             <title>{product.title ? product.title + ' | Prime Shop' : 'محصول'}</title>
+             <meta name="description" content={product.short_description || product.description?.slice(0,150) || 'مشخصات و جزئیات محصول'} />
+             <meta property="og:title" content={product.title ? product.title + ' | Prime Shop' : 'محصول'} />
+             <meta property="og:description" content={product.short_description || product.description?.slice(0,150) || ''} />
+         </Helmet><main dir="rtl" className="py-12 min-h-[90vh]">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Gallery */}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from 'react-helmet-async';
 import Tabs from "../components/Tabs";
 import OrdersSection from "../components/OrderSection";
 import AddressesSection from "../components/AddressesSection";
@@ -17,6 +18,10 @@ function Dashboard() {
 
   return (
     <div className={"p-6 max-w-4xl mx-auto min-h-screen"}>
+      <Helmet>
+        <title>داشبورد | Prime Shop</title>
+        <meta name="description" content="داشبورد کاربری شما - سفارش‌ها، آدرس‌ها و اطلاعات حساب." />
+      </Helmet>
       <div className={"flex items-center  justify-between mb-4"}>
         <h1 className={"text-2xl font-bold"}>داشبورد</h1>
       </div>

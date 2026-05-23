@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Helmet } from 'react-helmet-async';
 import api from "../service/api";
 import HeroHeader from "../components/HeroHeader";
 import ProductList from "../components/ProductList";
@@ -47,6 +48,13 @@ function Home(){
     },[])
 
     return <>
+    <Helmet>
+        <title>خانه | Prime Shop</title>
+        <meta name="description" content="بهترین فروشگاه اینترنتی برای خرید آنلاین - جدیدترین محصولات، تخفیف‌های ویژه و ارسال سریع." />
+        <meta property="og:title" content="خانه | Prime Shop" />
+        <meta property="og:description" content="بهترین فروشگاه اینترنتی برای خرید آنلاین - جدیدترین محصولات و پیشنهادات ویژه." />
+        <link rel="canonical" href="/" />
+    </Helmet>
         <HeroHeader />
         <ProductList products={products} isLoading={productsIsLoading} label="جدید ترین محصولات" />
         {specialSuggestionProducts.is_active & specialSuggestionProducts.remaining_sconds > 0 ? <>
