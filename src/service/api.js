@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/AuthHook";
 
-export const BASEURL = "http://127.0.0.1:8000";
+export const BASEURL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 const getAccessToken = () => localStorage.getItem('accessToken');
 const getRefreshToken = () => localStorage.getItem('refreshToken');
