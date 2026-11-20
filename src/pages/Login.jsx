@@ -81,7 +81,9 @@ function Login(){
                     setIsAuthenticated(true);
 
                 }).catch((error)=>{
-
+                    // Debugging an Error
+                    console.log(error);
+                    
                     setTypeAlert("error");
                     setMessage("مشکلی در دریافت اطلاعات شما پیش آمد مجدد وارد شوبد");
 
