@@ -74,7 +74,7 @@ function Login(){
 
                 api.get("/accounts/api/v1/user/").then((resUser)=>{
 
-                    const user = {phone:phone, full_name:resUser.data.full_name, id:data.id, email:data.email};
+                    const user = {phone:phone, full_name:resUser.data.full_name, id:resUser.data.id, email:resUser.data.email};
                     localStorage.setItem("user", JSON.stringify(user));
                     
                     setUser(user);
