@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Star, X } from "lucide-react";
+import { toPersianDigits } from "../lib/phone";
 
-function Star({ filled, onClick }) {
-  return (
-    <button type="button" onClick={onClick} className={`text-2xl ${filled ? 'text-yellow-400' : 'text-gray-200'} focus:outline-none`} aria-label="rate">
-      ★
-    </button>
-  );
-}
+const easing = [0.22, 1, 0.36, 1];
 
 function AddComment({ onClose, onSubmit }) {
   const [rating, setRating] = useState(5);
@@ -18,68 +15,106 @@ function AddComment({ onClose, onSubmit }) {
     const item = {
       content: text.trim(),
       rating: Number(rating),
-      creaetd_at: new Date().toLocaleDateString(),
     };
     onSubmit && onSubmit(item);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6"
+      onClick={onClose}
+    >
+      <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" />
 
-      <form
+      <motion.form
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 12, scale: 0.98 }}
+        transition={{ duration: 0.28, ease: easing }}
         onSubmit={submit}
         onClick={(e) => e.stopPropagation()}
         dir="rtl"
-        className="relative z-10 w-full max-w-xl bg-white rounded-xl p-6 shadow-2xl border border-gray-100"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="add-comment-title"
+        className="relative z-10 max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl"
       >
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-start justify-between gap-4">
           <div>
-            <h3 className="text-lg font-bold">نوشتن نظر درباره محصول</h3>
-            <p className="text-sm text-gray-500">لطفاً تجربه‌ی خود را با دیگران به اشتراک بگذارید.</p>
+            <h3 id="add-comment-title" className="text-base font-bold text-slate-900">
+              نوشتن نظر درباره محصول
+            </h3>
+            <p className="mt-1 text-xs text-slate-500">لطفاً تجربه‌ی خود را با دیگران به اشتراک بگذارید.</p>
           </div>
-          <button type="button" onClick={onClose} className="text-gray-400 cursor-pointer hover:text-gray-700 p-2 rounded-full">✕</button>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="بستن"
+            className="grid size-9 shrink-0 place-items-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+          >
+            <X size={18} aria-hidden="true" />
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 gap-3">
-          <div className="flex gap-3 items-center">
-            {/* <input
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-              className="flex-1 border border-gray-200 px-3 py-2 rounded-lg focus:ring-1 focus:ring-sky-200"
-              placeholder="نام شما (اختیاری)"
-              dir="rtl"
-            /> */}
-
-            <div className="flex items-center gap-2">
-              <div className="text-sm text-gray-600">امتیاز</div>
-              <div className="flex items-center">
-                {[1,2,3,4,5].map((i)=> (
-                  <Star key={i} filled={i<=rating} onClick={()=>setRating(i)} />
-                ))}
-              </div>
-            </div>
+        <div className="mt-6">
+          <p className="text-sm font-bold text-slate-800">امتیاز شما</p>
+          <div className="mt-1.5 flex items-center gap-1" role="group" aria-label="انتخاب امتیاز">
+            {[1, 2, 3, 4, 5].map((value) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setRating(value)}
+                aria-label={`امتیاز ${toPersianDigits(value)} از ۵`}
+                aria-pressed={value <= rating}
+                className="rounded-lg p-1 transition hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+              >
+                <Star
+                  size={26}
+                  aria-hidden="true"
+                  className={value <= rating ? "fill-amber-400 text-amber-400" : "text-slate-300"}
+                />
+              </button>
+            ))}
           </div>
+        </div>
 
+        <div className="mt-5">
+          <label htmlFor="comment-text" className="sr-only">
+            متن نظر
+          </label>
           <textarea
+            id="comment-text"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="نظر خود را بنویسید..."
-            className="w-full border border-gray-200 p-3 rounded-lg min-h-[140px] focus:ring-1 focus:ring-sky-200"
-            dir="rtl"
+            placeholder="نظر خود را بنویسید…"
+            className="min-h-[140px] w-full rounded-2xl border border-slate-200 bg-white p-4 text-sm leading-7 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10"
           />
-
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2">
-              <button type="submit" className="px-4 py-2 bg-gradient-to-r from-sky-500 cursor-pointer to-indigo-500 text-white rounded-lg shadow">ارسال نظر</button>
-              <button type="button" onClick={onClose} className="px-4 py-2 border cursor-pointer rounded-lg">لغو</button>
-            </div>
-
-            <div className="text-sm text-gray-500">نظر شما پس از بررسی منتشر خواهد شد.</div>
-          </div>
         </div>
-      </form>
-    </div>
+
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              className="rounded-2xl bg-slate-900 px-5 py-3 text-xs font-bold text-white transition hover:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            >
+              ارسال نظر
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-2xl border border-slate-200 px-5 py-3 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
+            >
+              لغو
+            </button>
+          </div>
+
+          <p className="text-xs text-slate-500">نظر شما پس از بررسی منتشر خواهد شد.</p>
+        </div>
+      </motion.form>
+    </motion.div>
   );
 }
 

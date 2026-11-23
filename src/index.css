@@ -4,8 +4,114 @@
     src: url("./assets/fonts/Vazir.ttf");
 }
 
+:root{
+    --font-sans: "Vazirmatn", Vazir, ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Vazirmatn", Vazir, ui-sans-serif, system-ui, sans-serif;
+    color-scheme: light;
+}
+
 *{
-    font-family: Vazir !important;
+    font-family: var(--font-sans) !important;
+}
+
+.font-display{
+    font-family: var(--font-display) !important;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    background-color: #fff;
+}
+
+.bg-grid{
+    background-image:
+        linear-gradient(to right, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+}
+
+.mask-fade-center{
+    -webkit-mask-image: radial-gradient(65% 55% at 50% 40%, #000 35%, transparent 100%);
+    mask-image: radial-gradient(65% 55% at 50% 40%, #000 35%, transparent 100%);
+}
+
+.hide-scrollbar::-webkit-scrollbar{
+    display: none;
+}
+
+.hide-scrollbar{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.rich-text{
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.95;
+}
+
+.rich-text p{
+    margin-bottom: 0.85rem;
+}
+
+.rich-text h2,
+.rich-text h3,
+.rich-text h4{
+    color: #0f172a;
+    font-weight: 700;
+    margin: 1.25rem 0 0.6rem;
+}
+
+.rich-text strong{
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.rich-text ul,
+.rich-text ol{
+    margin: 0.6rem 0;
+    padding-inline-start: 1.4rem;
+    list-style: disc;
+}
+
+.rich-text ol{
+    list-style: decimal;
+}
+
+.rich-text li{
+    margin-bottom: 0.35rem;
+}
+
+.rich-text a{
+    color: #4f46e5;
+    text-decoration: underline;
+}
+
+.rich-text img{
+    border-radius: 1rem;
+    margin: 0.85rem 0;
+    max-width: 100%;
+}
+
+.rich-text table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.rich-text td,
+.rich-text th{
+    border: 1px solid #e2e8f0;
+    padding: 0.5rem 0.75rem;
+    text-align: start;
+}
+
+@media (prefers-reduced-motion: reduce){
+    html{
+        scroll-behavior: auto;
+    }
 }
 
 .h-max-content{
