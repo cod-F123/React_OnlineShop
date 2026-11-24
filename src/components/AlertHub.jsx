@@ -1,4 +1,5 @@
 import { useContext, useEffect, useCallback } from "react";
+import { AnimatePresence } from "framer-motion";
 import AlertContext from "../context/Alert";
 import Alert from "./Alert";
 
@@ -13,7 +14,18 @@ function AlertHub() {
         return () => clearTimeout(t)
     }, [message, setMessage])
 
-    return <Alert message={message} alertType={typeAlert} onClose={clear} />
+    return (
+        <AnimatePresence mode="wait">
+            {message ? (
+                <Alert
+                    key={`${typeAlert}-${message}`}
+                    message={message}
+                    alertType={typeAlert}
+                    onClose={clear}
+                />
+            ) : null}
+        </AnimatePresence>
+    )
 }
 
 export default AlertHub;

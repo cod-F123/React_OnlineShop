@@ -62,8 +62,6 @@ function Shop() {
   useEffect(() => {
     let active = true;
 
-    console.log(requestUrl)
-
     api.get(requestUrl).then((response) => {
       if (!active) return;
       const data = response.data || {};
