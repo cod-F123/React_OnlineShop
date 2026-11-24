@@ -56,7 +56,7 @@ function Shop() {
   const page = activePageTarget?.page || 1;
   const isLoading = completedRequestKey !== `${paramsKey}|${activePageTarget?.url || "first"}`;
   const error = errorRequestKey === `${paramsKey}|${activePageTarget?.url || "first"}`;
-  const requestUrl = activePageTarget?.url || `/shop/api/v1/product/?search=${encodeURIComponent(filters.search)}&tag=${encodeURIComponent(filters.tag)}&category=${encodeURIComponent(filters.category)}&ordering=${encodeURIComponent(filters.ordering)}&page=1`;
+  const requestUrl = activePageTarget?.url || `/shop/api/v1/product/?search=${encodeURIComponent(filters.search)}&tag=${encodeURIComponent(filters.tag)}&category__name=${encodeURIComponent(filters.category)}&ordering=${encodeURIComponent(filters.ordering)}&page=1`;
   const requestKey = `${paramsKey}|${activePageTarget?.url || "first"}`;
 
   useEffect(() => {
